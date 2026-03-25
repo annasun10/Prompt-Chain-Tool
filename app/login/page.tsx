@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
@@ -16,20 +17,15 @@ export default async function LoginPage() {
     "use server";
 
     const supabase = await createClient();
+    const headerList = await headers();
+    const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
+    const protocol = host?.includes("localhost") ? "http" : "https";
 
-    // const siteUrl =
-    //   process.env.NEXT_PUBLIC_SITE_URL ||
-    //   process.env.NEXT_PUBLIC_VERCEL_URL;
+    if (!host) {
+      throw new Error("Could not determine host");
+    }
 
-    // if (!siteUrl) {
-    //   throw new Error(
-    //     "Missing NEXT_PUBLIC_SITE_URL or NEXT_PUBLIC_VERCEL_URL"
-    //   );
-    // }
-
-    // const origin = siteUrl.startsWith("http")
-    //   ? siteUrl
-    //   : `https://${siteUrl}`;
+    const origin = `${protocol}://${host}`;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -45,6 +41,8 @@ export default async function LoginPage() {
     if (data.url) {
       redirect(data.url);
     }
+
+    throw new Error("No OAuth URL returned from Supabase");
   }
 
   return (
