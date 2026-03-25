@@ -44,16 +44,40 @@ export default async function TestFlavorPage({
   const steps: Step[] = stepsData ?? [];
 
   return (
-    <main className="mx-auto max-w-5xl p-6 space-y-6">
-      <div>
-        <Link href={`/flavors/${id}`} className="text-sm underline">
-          Back to Flavor
-        </Link>
-        <h1 className="mt-2 text-3xl font-bold">Test Flavor</h1>
-        <p className="text-sm text-gray-500">{flavor?.description}</p>
-      </div>
+    <main className="min-h-screen bg-white px-6 py-10 text-black dark:bg-black dark:text-white">
+      <div className="mx-auto max-w-5xl space-y-8">
+        <div className="space-y-3">
+          <Link
+            href={`/flavors/${id}`}
+            className="text-sm text-gray-600 underline underline-offset-4 dark:text-slate-300"
+          >
+            Back to Flavor
+          </Link>
 
-      <TestFlavorForm flavorId={id} steps={steps} />
+          <div className="space-y-2">
+            <p className="text-sm font-medium uppercase tracking-wide text-gray-500 dark:text-slate-400">
+              Test Flavor
+            </p>
+
+            <h1 className="text-4xl font-bold tracking-tight text-black dark:text-white">
+              {flavor?.description || "Untitled Flavor"}
+            </h1>
+
+            <p className="text-sm text-gray-600 dark:text-slate-300">
+              Run this humor flavor against a test image and review the outputs.
+            </p>
+
+            <p className="text-sm text-gray-600 dark:text-slate-300">
+              Slug:{" "}
+              <span className="rounded bg-gray-100 px-2 py-1 font-mono text-black dark:bg-slate-950 dark:text-slate-200">
+                {flavor?.slug || "no-slug"}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <TestFlavorForm flavorId={id} steps={steps} />
+      </div>
     </main>
   );
 }

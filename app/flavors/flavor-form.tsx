@@ -19,7 +19,7 @@ export default function FlavorForm() {
       <div className="md:col-span-2">
         <label
           htmlFor="description"
-          className="mb-2 block text-sm font-medium"
+          className="mb-2 block text-sm font-medium text-black dark:text-white"
         >
           Description
         </label>
@@ -27,25 +27,28 @@ export default function FlavorForm() {
           id="description"
           name="description"
           placeholder="Ex. Dry sarcasm for everyday situations"
-          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-black dark:border-gray-700 dark:bg-black dark:focus:border-white"
+          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-black placeholder:text-gray-400 outline-none transition focus:border-black dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-white"
           required
         />
       </div>
 
       <div>
-        <label htmlFor="slug" className="mb-2 block text-sm font-medium">
+        <label
+          htmlFor="slug"
+          className="mb-2 block text-sm font-medium text-black dark:text-white"
+        >
           Slug
         </label>
         <input
           id="slug"
           name="slug"
           placeholder="dry-sarcasm"
-          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-black dark:border-gray-700 dark:bg-black dark:focus:border-white"
+          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-black placeholder:text-gray-400 outline-none transition focus:border-black dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-white"
           required
         />
       </div>
 
-      <div className="md:col-span-3 space-y-2">
+      <div className="md:col-span-3 space-y-3">
         <button
           type="submit"
           disabled={isPending}
@@ -55,13 +58,13 @@ export default function FlavorForm() {
         </button>
 
         {state.error && (
-          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
             {state.error}
           </p>
         )}
 
         {state.success && (
-          <p className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-900 dark:bg-green-950 dark:text-green-300">
+          <p className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
             {state.success}
           </p>
         )}
