@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import FlavorForm from "./flavor-form";
+import { deleteFlavor } from "./actions";
+import DeleteFlavorButton from "./delete-flavor-button";
 
 type Flavor = {
-  id: string;
+  id: number;
   description: string | null;
   slug: string | null;
   created_datetime_utc?: string | null;
@@ -28,7 +30,7 @@ export default async function FlavorsPage() {
           </p>
           <h1 className="text-4xl font-bold tracking-tight">Humor Flavors</h1>
           <p className="max-w-2xl text-sm text-gray-600 dark:text-gray-400">
-            Create and manage humor flavors for your prompt chains.
+            Create, manage, and test humor flavors for your prompt chains.
           </p>
         </div>
 
@@ -61,31 +63,50 @@ export default async function FlavorsPage() {
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {flavors.map((flavor) => (
-                <Link
+                <div
                   key={flavor.id}
-                  href={`/flavors/${flavor.id}`}
-                  className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
                 >
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                        Flavor
-                      </p>
-                      <h3 className="mt-1 text-lg font-semibold">
-                        {flavor.description || "Untitled Flavor"}
-                      </h3>
-                    </div>
+                  <div className="space-y-4">
+                    <Link href={`/flavors/${flavor.id}`} className="block">
+                      <div>
+                        <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                          Flavor
+                        </p>
+                        <h3 className="mt-1 text-lg font-semibold">
+                          {flavor.description || "Untitled Flavor"}
+                        </h3>
+                      </div>
 
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-gray-500">
-                        Slug
-                      </p>
-                      <p className="rounded-lg bg-gray-100 px-3 py-2 font-mono text-sm dark:bg-black">
-                        {flavor.slug || "no-slug"}
-                      </p>
+                      <div className="mt-3">
+                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                          Slug
+                        </p>
+                        <p className="rounded-lg bg-gray-100 px-3 py-2 font-mono text-sm dark:bg-black">
+                          {flavor.slug || "no-slug"}
+                        </p>
+                      </div>
+                    </Link>
+
+                    <div className="flex items-center justify-between gap-3">
+                      <Link
+                        href={`/flavors/${flavor.id}`}
+                        className="rounded-lg border px-3 py-2 text-sm"
+                      >
+                        Open
+                      </Link>
+
+                      <form action={deleteFlavor}>
+                        <input
+                          type="hidden"
+                          name="flavorId"
+                          value={flavor.id}
+                        />
+                        <DeleteFlavorButton />
+                      </form>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           )}

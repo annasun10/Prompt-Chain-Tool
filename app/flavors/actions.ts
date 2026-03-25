@@ -66,3 +66,33 @@ export async function createFlavor(
     success: "Humor flavor created successfully.",
   };
 }
+
+export async function deleteFlavor(formData: FormData): Promise<void> {
+  const { supabase } = await requireAdmin();
+
+  const flavorId = Number(formData.get("flavorId"));
+
+  if (!flavorId) {
+    throw new Error("Missing flavor id.");
+  }
+
+  const { error: stepDeleteError } = await supabase
+    .from("humor_flavor_steps")
+    .delete()
+    .eq("humor_flavor_id", flavorId);
+
+  if (stepDeleteError) {
+    throw new Error(stepDeleteError.message);
+  }
+
+  const { error: flavorDeleteError } = await supabase
+    .from("humor_flavors")
+    .delete()
+    .eq("id", flavorId);
+
+  if (flavorDeleteError) {
+    throw new Error(flavorDeleteError.message);
+  }
+
+  revalidatePath("/flavors");
+}
