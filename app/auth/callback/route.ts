@@ -10,5 +10,6 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  // ✅ uses whatever domain the request came from (no localhost hardcoding)
+  return NextResponse.redirect(new URL("/flavors", request.url));
 }
