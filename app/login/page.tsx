@@ -17,10 +17,24 @@ export default async function LoginPage() {
 
     const supabase = await createClient();
 
+    // const siteUrl =
+    //   process.env.NEXT_PUBLIC_SITE_URL ||
+    //   process.env.NEXT_PUBLIC_VERCEL_URL;
+
+    // if (!siteUrl) {
+    //   throw new Error(
+    //     "Missing NEXT_PUBLIC_SITE_URL or NEXT_PUBLIC_VERCEL_URL"
+    //   );
+    // }
+
+    // const origin = siteUrl.startsWith("http")
+    //   ? siteUrl
+    //   : `https://${siteUrl}`;
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `/auth/callback`, // ✅ no origin needed
+        redirectTo: `${origin}/auth/callback`,
       },
     });
 
